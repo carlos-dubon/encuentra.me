@@ -1,35 +1,4 @@
-<h1 align="center">Quantum ⚛️</h1>
-
-<p align="center" style="font-size: 1.2rem">
- A tech stack to build and scale full-stack applications on serverless environments.
-</p>
-
-<hr />
-
-<img
-  src="https://img.shields.io/github/stars/carlos-dubon/quantum?style=flat-square"
-  alt="Stars"
-/>
-<img
-  src="https://img.shields.io/github/forks/carlos-dubon/quantum?style=flat-square"
-  alt="Forks"
-/>
-<img
-  src="https://img.shields.io/github/issues-pr/carlos-dubon/quantum?style=flat-square"
-  alt="Pulls"
-/>
-
-## The Quantum stack
-
-The _"Quantum stack"_ is a serverless web development stack made by [Carlos](https://github.com/carlos-dubon) focused on **simplicity**, **modularity**, and **full-stack typesafety**. It consists of:
-
-- [Next.js](https://nextjs.org/)
-- [Apollo GraphQL](https://www.apollographql.com/)
-- [GraphQL Nexus](https://nexusjs.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Prisma](https://www.prisma.io/)
-- [NextAuth.js](https://next-auth.js.org/)
+<h1 align="center">encuentra.me</h1>
 
 ## Getting started
 
