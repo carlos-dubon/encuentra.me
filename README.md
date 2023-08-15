@@ -1,5 +1,7 @@
 <h1 align="center">encuentra.me</h1>
 
+⚠️ Use the non pooling db connection string
+
 ## Getting started
 
 1. Provision a new database. We recommend using [Railway](https://railway.app/) for this, as you get a free PostgreSQL database under their [free tier](https://railway.app/pricing).
