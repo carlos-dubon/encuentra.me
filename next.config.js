@@ -1,9 +1,4 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
-  images: {
-    domains: ["ugc.production.linktr.ee"],
-  },
-};
+const nextConfig = {}
 
-module.exports = nextConfig;
+module.exports = nextConfig
