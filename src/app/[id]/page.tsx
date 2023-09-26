@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/app/firebase/config";
+import Link from "next/link";
 
 export interface User {
   bgColor: string;
@@ -31,11 +32,20 @@ export default async function Page({ params }: { params: { id: string } }) {
       <img
         src={user?.imageUrl}
         alt={user?.name}
-        width={180}
+        width={96}
         className="rounded-full"
       />
 
-      <p className="text-2xl">{user?.name}</p>
+      <p className="text-xl font-medium">{user?.name}</p>
+      <div className="flex gap-2">
+        {user?.socialLinks.map((socialLink, index) => {
+          return (
+            <Link href={"#"} key={index}>
+              {socialLink.slug}
+            </Link>
+          );
+        })}
+      </div>
     </div>
   );
 }
