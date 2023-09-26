@@ -12,6 +12,7 @@ export interface User {
     slug: string;
     socialNetwork: string;
   }[];
+  iconPack: string;
 }
 
 export default async function Page({ params }: { params: { id: string } }) {
