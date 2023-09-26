@@ -11,11 +11,16 @@ export interface User {
     slug: string;
     socialNetwork: string;
   }[];
+  customLinks: {
+    label: string;
+    url: string;
+  }[];
   layoutConfig: {
     bgColor: string;
     bgImage: string;
     iconPack: string;
     font: string;
+    customLinksStyle: string;
   };
 }
 
@@ -32,7 +37,7 @@ export default async function Page({ params }: { params: { id: string } }) {
       style={{
         backgroundColor: user?.layoutConfig.bgColor,
       }}
-      className="text-white h-screen flex flex-col items-center p-6"
+      className="text-white h-screen flex flex-col items-center py-6 px-4 sm:p-6"
     >
       <img
         src={user?.imageUrl}
@@ -45,9 +50,9 @@ export default async function Page({ params }: { params: { id: string } }) {
       <p className="text-sm mt-1">{user?.description}</p>
 
       <div className="flex gap-2 mt-6">
-        {user?.socialLinks.map((socialLink, index) => {
+        {user?.socialLinks.map((socialLink, idx) => {
           return (
-            <Link href={"#"} key={index}>
+            <Link href={"#"} key={idx}>
               {socialLink.slug}
             </Link>
           );
@@ -55,7 +60,21 @@ export default async function Page({ params }: { params: { id: string } }) {
       </div>
 
       {/* Custom links section */}
-      <div className="mt-8"></div>
+      <div className="mt-8 flex flex-col gap-2 w-full max-w-xl">
+        {user?.customLinks.map((link, idx) => {
+          return (
+            <Link
+              target="_blank"
+              referrerPolicy="no-referrer"
+              className="bg-white text-black rounded-md flex items-center justify-center w-full p-4 shadow-sm"
+              href={link.url || ""}
+              key={idx}
+            >
+              {link.label}
+            </Link>
+          );
+        })}
+      </div>
     </div>
   );
 }
