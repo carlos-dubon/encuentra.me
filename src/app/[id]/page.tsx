@@ -50,6 +50,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         src={user?.imageUrl}
         alt={user?.name}
         width={96}
+        height={96}
         className="rounded-full mb-4"
       />
 
@@ -78,7 +79,7 @@ export default async function Page({ params }: { params: { id: string } }) {
             <Link
               target="_blank"
               referrerPolicy="no-referrer"
-              className="bg-white text-black rounded-md flex items-center justify-center w-full shadow-sm px-2"
+              className="hover:scale-105 transition bg-white text-black rounded-md flex items-center justify-center w-full shadow-sm px-2"
               href={link.url || ""}
               key={idx}
             >
