@@ -72,7 +72,7 @@ export default async function Page({ params }: { params: { id: string } }) {
       </div>
 
       {/* Custom links section */}
-      <div className="mt-8 flex flex-col gap-2 w-full max-w-xl">
+      <div className="mt-8 flex flex-col gap-4 w-full max-w-xl">
         {user?.customLinks.map((link, idx) => {
           return (
             <Link
