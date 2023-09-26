@@ -14,6 +14,7 @@ export interface User {
   customLinks: {
     label: string;
     url: string;
+    thumbnail?: string;
   }[];
   layoutConfig: {
     bgColor: string;
@@ -66,11 +67,22 @@ export default async function Page({ params }: { params: { id: string } }) {
             <Link
               target="_blank"
               referrerPolicy="no-referrer"
-              className="bg-white text-black rounded-md flex items-center justify-center w-full p-4 shadow-sm"
+              className="bg-white text-black rounded-md flex items-center justify-center w-full shadow-sm px-2"
               href={link.url || ""}
               key={idx}
             >
-              {link.label}
+              {link.thumbnail && (
+                <img
+                  src={link.thumbnail}
+                  alt="thumbnail"
+                  width={46}
+                  height={46}
+                  className="object-cover"
+                />
+              )}
+              <div className="w-full flex items-center justify-center py-4">
+                {link.label}
+              </div>
             </Link>
           );
         })}
