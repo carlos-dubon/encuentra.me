@@ -2,13 +2,19 @@
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/app/firebase/config";
 import Link from "next/link";
+import { BsLinkedin, BsGithub } from "react-icons/bs";
+
+const BootstrapIcons = {
+  linkedin: <BsLinkedin size={32} />,
+  github: <BsGithub size={32} />,
+};
 
 export interface User {
   imageUrl: string;
   name: string;
   description: string;
   socialLinks: {
-    slug: string;
+    url: string;
     socialNetwork: string;
   }[];
   customLinks: {
@@ -50,11 +56,16 @@ export default async function Page({ params }: { params: { id: string } }) {
       <p className="text-xl font-medium">{user?.name}</p>
       <p className="text-sm mt-1">{user?.description}</p>
 
-      <div className="flex gap-2 mt-6">
+      <div className="flex gap-4 mt-6">
         {user?.socialLinks.map((socialLink, idx) => {
           return (
-            <Link href={"#"} key={idx}>
-              {socialLink.slug}
+            <Link
+              target="_blank"
+              referrerPolicy="no-referrer"
+              href={socialLink.url}
+              key={idx}
+            >
+              {BootstrapIcons[socialLink.socialNetwork]}
             </Link>
           );
         })}
