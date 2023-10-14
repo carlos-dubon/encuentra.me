@@ -2,9 +2,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import logo from "/public/logo.svg";
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import { useSignInWithGoogle } from "react-firebase-hooks/auth";
 import { auth } from "./firebase/config";
+import { useRouter } from "next/navigation";
 
 interface ButtonProps {
   children: ReactNode;
@@ -31,7 +32,14 @@ const Button = ({ children, href, onClick }: ButtonProps) => {
 };
 
 export default function Home() {
+  const router = useRouter();
   const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
+
+  useEffect(() => {
+    if (!loading && user?.user && !error) {
+      router.push(`/dashboard`);
+    }
+  }, [user, loading, error, router]);
 
   return (
     <div className="bg-[#5C97FF] pt-[30px] h-screen">
@@ -44,7 +52,7 @@ export default function Home() {
         <div className="flex items-center gap-6 mt-10">
           <Button href="/carlos">Explorar</Button>
           <Button
-            href="/login"
+            href="/"
             onClick={() => {
               signInWithGoogle();
             }}
