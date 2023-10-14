@@ -66,7 +66,11 @@ export default async function Page({ params }: { params: { id: string } }) {
               href={socialLink.url}
               key={idx}
             >
-              {BootstrapIcons[socialLink.socialNetwork]}
+              {
+                BootstrapIcons[
+                  socialLink.socialNetwork as keyof typeof BootstrapIcons
+                ]
+              }
             </Link>
           );
         })}
