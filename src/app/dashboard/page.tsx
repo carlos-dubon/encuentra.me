@@ -71,8 +71,7 @@ export default function Dashboard() {
         </p>
 
         <div className="max-w-md flex flex-col mt-6 gap-4">
-          <InputContainer>
-            <p className="text-sm">Nombre:</p>
+          <InputContainer label="Nombre">
             <Input
               value={form.values.name}
               onChange={form.handleChange}
