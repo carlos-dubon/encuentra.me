@@ -26,10 +26,6 @@ export default function Dashboard() {
     router.push("/");
   };
 
-  const validationSchema = Yup.object({
-    name: Yup.string().required("Este campo es obligatorio"),
-  });
-
   const initialValues: User = {
     name: user?.name || "",
     description: user?.description || "",
@@ -37,13 +33,19 @@ export default function Dashboard() {
     layoutConfig: {
       bgColor: user?.layoutConfig?.bgColor || "",
       bgImage: user?.layoutConfig?.bgImage || "",
-      customLinksStyle: "",
-      font: "",
-      iconPack: "",
+      customLinksStyle: user?.layoutConfig?.customLinksStyle || "",
+      font: user?.layoutConfig?.font || "",
+      iconPack: user?.layoutConfig?.iconPack || "",
     },
-    customLinks: [],
-    socialLinks: [],
+    customLinks: user?.customLinks || [],
+    socialLinks: user?.socialLinks || [],
   };
+
+  const validationSchema = Yup.object({
+    name: Yup.string().required("Este campo es obligatorio"),
+    description: Yup.string().required("Este campo es obligatorio"),
+    imageUrl: Yup.string().required("Este campo es obligatorio"),
+  });
 
   const form = useFormik({
     initialValues,
@@ -102,6 +104,16 @@ export default function Dashboard() {
               name="description"
             />
             <InputError form={form} inputName="description" />
+          </InputContainer>
+
+          <InputContainer label="Foto de perfil">
+            <Input
+              value={form.values.imageUrl}
+              onChange={form.handleChange}
+              onBlur={form.handleBlur}
+              name="imageUrl"
+            />
+            <InputError form={form} inputName="imageUrl" />
           </InputContainer>
 
           <Button
