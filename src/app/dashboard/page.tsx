@@ -53,7 +53,7 @@ export default function Dashboard() {
     name: Yup.string().required("Este campo es obligatorio"),
     description: Yup.string().required("Este campo es obligatorio"),
     imageUrl: Yup.string().required("Este campo es obligatorio"),
-    layourConfig: Yup.object({
+    layoutConfig: Yup.object({
       bgColor: Yup.string().required("Este campo es obligatorio"),
       bgImage: Yup.string(),
       customLinksStyle: Yup.string(),
