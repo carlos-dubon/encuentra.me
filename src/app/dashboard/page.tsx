@@ -23,6 +23,11 @@ export default function Dashboard() {
   }
 
   if (user?.name) {
-    return <div>Bienvenido {user.name}</div>;
+    return (
+      <div className="text-xs">
+        Bienvenido {user.name}
+        <pre>{JSON.stringify(user, null, 2)}</pre>
+      </div>
+    );
   }
 }
