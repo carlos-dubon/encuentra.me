@@ -1,6 +1,6 @@
 "use client";
 import { LoadingScreen } from "@/components/LoadingScreen";
-import { USE_GET_USER_ERROR, User, useGetUser } from "@/hooks/useGetUser";
+import { User, useGetUser } from "@/hooks/useGetUser";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { Input, Button, ColorPicker, Select } from "antd";
@@ -44,6 +44,7 @@ export default function Dashboard() {
       customLinksStyle: user?.layoutConfig?.customLinksStyle || "",
       font: user?.layoutConfig?.font || "",
       iconPack: user?.layoutConfig?.iconPack || "",
+      textColor: user?.layoutConfig?.textColor || "",
     },
     customLinks: user?.customLinks || [],
     socialLinks: user?.socialLinks || [],
@@ -55,6 +56,7 @@ export default function Dashboard() {
     imageUrl: Yup.string().required("Este campo es obligatorio"),
     layoutConfig: Yup.object({
       bgColor: Yup.string().required("Este campo es obligatorio"),
+      textColor: Yup.string().required("Este campo es obligatorio"),
       bgImage: Yup.string(),
       customLinksStyle: Yup.string(),
       font: Yup.string(),
@@ -72,10 +74,6 @@ export default function Dashboard() {
   });
 
   if (loading) return <LoadingScreen />;
-
-  if (error == USE_GET_USER_ERROR.USER_NOT_FOUND) {
-    return "Usuario no encontrado";
-  }
 
   if (error) {
     return "Error desconocido";
@@ -161,6 +159,25 @@ export default function Dashboard() {
               <InputError
                 isShown={!!form.errors.layoutConfig?.bgColor}
                 errorMessage={form.errors.layoutConfig?.bgColor}
+              />
+            </InputContainer>
+
+            <InputContainer label="Color de texto">
+              <ColorPicker
+                disabled={isSubmittingForm}
+                showText
+                size="large"
+                value={form.values.layoutConfig.textColor}
+                onChange={(color) =>
+                  form.setFieldValue(
+                    "layoutConfig.textColor",
+                    `#${color.toHex()}`
+                  )
+                }
+              />
+              <InputError
+                isShown={!!form.errors.layoutConfig?.textColor}
+                errorMessage={form.errors.layoutConfig?.textColor}
               />
             </InputContainer>
 
