@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 
 export default function Dashboard({ params }: { params: { uid: string } }) {
-  const [user, loadingAuthState, error] = useAuthState(auth);
+  const [firebaseUser, loadingAuthState, error] = useAuthState(auth);
 
   const [userHasAccount, setUserHasAccount] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -13,13 +13,22 @@ export default function Dashboard({ params }: { params: { uid: string } }) {
   useEffect(() => {
     const userHasAccount = async () => {
       setLoading(true);
-      if (!user || loadingAuthState || error) return;
-      const docRef = doc(db, "accounts", user.uid);
+      if (!firebaseUser || loadingAuthState || error) return;
+      const docRef = doc(db, "accounts", firebaseUser.uid);
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
         setUserHasAccount(true);
         console.log("Document data:", docSnap.data());
+
+        const getUser = async () => {
+          const docRef = doc(db, "users", docSnap.data()?.slug);
+          return (await getDoc(docRef)).data();
+        };
+
+        const user = await getUser();
+
+        console.log(user);
       } else {
         setUserHasAccount(false);
       }
@@ -28,7 +37,7 @@ export default function Dashboard({ params }: { params: { uid: string } }) {
     };
 
     userHasAccount();
-  }, [user, loadingAuthState, error]);
+  }, [firebaseUser, loadingAuthState, error]);
 
   if (loading) {
     return "Cargando...";
@@ -38,5 +47,17 @@ export default function Dashboard({ params }: { params: { uid: string } }) {
     return "Algo salió mal...";
   }
 
-  return <div>Dashboard</div>;
+  if (userHasAccount) {
+    return (
+      <div>
+        <div>Bienvenido</div>
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        <div>Al parecer no tienes una cuenta</div>
+      </div>
+    );
+  }
 }

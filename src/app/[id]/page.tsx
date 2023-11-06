@@ -31,7 +31,7 @@ export interface User {
   };
 }
 
-export default async function Page({ params }: { params: { id: string } }) {
+export default async function UserPage({ params }: { params: { id: string } }) {
   const getUser = async () => {
     const docRef = doc(db, "users", params.id);
     return (await getDoc(docRef)).data() as User | undefined;
