@@ -6,7 +6,7 @@ interface Form {
 }
 
 export interface InputErrorProps {
-  form: Form;
+  form: Form | any;
   inputName: string;
 }
 

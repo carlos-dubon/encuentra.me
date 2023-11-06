@@ -1,6 +1,6 @@
 "use client";
 import { LoadingScreen } from "@/components/LoadingScreen";
-import { USE_GET_USER_ERROR, useGetUser } from "@/hooks/useGetUser";
+import { USE_GET_USER_ERROR, User, useGetUser } from "@/hooks/useGetUser";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { Input, Button } from "antd";
@@ -30,10 +30,23 @@ export default function Dashboard() {
     name: Yup.string().required("Este campo es obligatorio"),
   });
 
-  const form = useFormik({
-    initialValues: {
-      name: user?.name,
+  const initialValues: User = {
+    name: user?.name || "",
+    description: user?.description || "",
+    imageUrl: user?.imageUrl || "",
+    layoutConfig: {
+      bgColor: user?.layoutConfig?.bgColor || "",
+      bgImage: user?.layoutConfig?.bgImage || "",
+      customLinksStyle: "",
+      font: "",
+      iconPack: "",
     },
+    customLinks: [],
+    socialLinks: [],
+  };
+
+  const form = useFormik({
+    initialValues,
     enableReinitialize: true,
     validationSchema,
     onSubmit: (values) => {
@@ -79,6 +92,16 @@ export default function Dashboard() {
               name="name"
             />
             <InputError form={form} inputName="name" />
+          </InputContainer>
+
+          <InputContainer label="Descripción">
+            <Input
+              value={form.values.description}
+              onChange={form.handleChange}
+              onBlur={form.handleBlur}
+              name="description"
+            />
+            <InputError form={form} inputName="description" />
           </InputContainer>
 
           <Button
