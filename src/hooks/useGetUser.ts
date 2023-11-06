@@ -71,5 +71,6 @@ export const useGetUser = () => {
     loading: loading || loadingUser,
     error,
     user,
+    userSlug,
   };
 };

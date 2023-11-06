@@ -11,13 +11,14 @@ import { useState } from "react";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase/config";
 import { Separator } from "@/components/Separator";
-import { SaveOutlined } from "@ant-design/icons";
+import { SaveOutlined, LinkOutlined } from "@ant-design/icons";
 import { InputError } from "@/components/InputError";
 import { InputContainer } from "@/components/InputContainer";
+import Link from "next/link";
 
 export default function Dashboard() {
   const router = useRouter();
-  const { loading, error, user } = useGetUser();
+  const { loading, error, user, userSlug } = useGetUser();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [isSubmittingForm, setIsSubmittingForm] = useState(false);
 
@@ -158,17 +159,29 @@ export default function Dashboard() {
             />
           </InputContainer>
 
-          <Button
-            className="bg-blue-500"
-            type="primary"
-            icon={<SaveOutlined />}
-            loading={isSubmittingForm}
-            onClick={() => {
-              submitForm(form.values);
-            }}
-          >
-            Guardar
-          </Button>
+          <div className="flex gap-2 items-center">
+            <Button
+              className="bg-blue-500 w-full"
+              type="primary"
+              icon={<SaveOutlined />}
+              loading={isSubmittingForm}
+              onClick={() => {
+                submitForm(form.values);
+              }}
+            >
+              Guardar
+            </Button>
+            <Link
+              href={`/${userSlug}`}
+              passHref
+              className="w-full"
+              target="_blank"
+            >
+              <Button icon={<LinkOutlined />} className="w-full">
+                Previsualizar
+              </Button>
+            </Link>
+          </div>
         </div>
 
         <pre className="text-xs">{JSON.stringify(user, null, 2)}</pre>
