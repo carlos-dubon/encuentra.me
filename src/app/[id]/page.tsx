@@ -3,33 +3,12 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/app/firebase/config";
 import Link from "next/link";
 import { BsLinkedin, BsGithub } from "react-icons/bs";
+import { User } from "@/state/auth";
 
 const BootstrapIcons = {
   linkedin: <BsLinkedin size={32} />,
   github: <BsGithub size={32} />,
 };
-
-export interface User {
-  imageUrl: string;
-  name: string;
-  description: string;
-  socialLinks: {
-    url: string;
-    socialNetwork: string;
-  }[];
-  customLinks: {
-    label: string;
-    url: string;
-    thumbnail?: string;
-  }[];
-  layoutConfig: {
-    bgColor: string;
-    bgImage: string;
-    iconPack: string;
-    font: string;
-    customLinksStyle: string;
-  };
-}
 
 export default async function UserPage({ params }: { params: { id: string } }) {
   const getUser = async () => {

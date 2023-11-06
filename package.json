@@ -9,7 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ant-design/cssinjs": "^1.17.2",
+    "antd": "^5.11.0",
     "firebase": "^10.4.0",
+    "formik": "^2.4.5",
+    "jotai": "^2.5.1",
     "next": "latest",
     "react": "latest",
     "react-dom": "latest",
