@@ -44,7 +44,7 @@ export default function Home() {
   return (
     <div className="bg-[#5C97FF] pt-[30px] h-screen">
       <div className="flex flex-col w-full h-full items-center justify-center bg-gradient-to-b from-pink-300 to bg-pink-50 shadow-2xl">
-        <Image src={logo} width={120} height={20} alt="owl" />
+        <Image src={logo} width={120} height={20} alt="logo" />
         <div className="text-6xl font-extrabold mt-2">Encuentra.me</div>
         <div className="text-lg mt-2">
           Todo lo que eres. En un simple enlace & bio.

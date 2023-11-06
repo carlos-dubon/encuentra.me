@@ -1,5 +1,4 @@
 import { auth, db } from "@/app/firebase/config";
-import { User } from "@/state/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -8,6 +7,28 @@ import { useDocument } from "react-firebase-hooks/firestore";
 export const USE_GET_USER_ERROR = {
   USER_NOT_FOUND: "User not found",
 };
+
+export interface User {
+  imageUrl: string;
+  name: string;
+  description: string;
+  socialLinks: {
+    url: string;
+    socialNetwork: string;
+  }[];
+  customLinks: {
+    label: string;
+    url: string;
+    thumbnail?: string;
+  }[];
+  layoutConfig: {
+    bgColor: string;
+    bgImage: string;
+    iconPack: string;
+    font: string;
+    customLinksStyle: string;
+  };
+}
 
 export const useGetUser = () => {
   const [loading, setLoading] = useState(true);
