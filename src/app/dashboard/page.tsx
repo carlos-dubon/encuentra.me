@@ -3,7 +3,7 @@ import { LoadingScreen } from "@/components/LoadingScreen";
 import { USE_GET_USER_ERROR, User, useGetUser } from "@/hooks/useGetUser";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import { Input, Button, ColorPicker } from "antd";
+import { Input, Button, ColorPicker, Select } from "antd";
 import Image from "next/image";
 import logo from "/public/logo.svg";
 import { useRouter } from "next/navigation";
@@ -93,6 +93,7 @@ export default function Dashboard() {
             Cerrar sesión
           </Button>
         </div>
+
         <Separator className="my-2" />
 
         <p className="text-xl font-medium">Bienvenido {form.values.name},</p>
@@ -100,105 +101,112 @@ export default function Dashboard() {
           Edita tu perfil aquí, y luego presiona guardar.
         </p>
 
-        <div className="max-w-md flex flex-col mt-6 gap-4">
-          <InputContainer label="Nombre">
-            <Input
-              value={form.values.name}
-              onChange={form.handleChange}
-              onBlur={form.handleBlur}
-              name="name"
-              disabled={isSubmittingForm}
-            />
-            <InputError
-              isShown={form.touched.name && !!form.errors.name}
-              errorMessage={form.errors.name}
-            />
-          </InputContainer>
+        <div className="flex gap-6 flex-col sm:flex-row">
+          <div className="max-w-md flex flex-col mt-6 gap-4 flex-1">
+            <InputContainer label="Nombre">
+              <Input
+                value={form.values.name}
+                onChange={form.handleChange}
+                onBlur={form.handleBlur}
+                name="name"
+                disabled={isSubmittingForm}
+              />
+              <InputError
+                isShown={form.touched.name && !!form.errors.name}
+                errorMessage={form.errors.name}
+              />
+            </InputContainer>
 
-          <InputContainer label="Descripción">
-            <Input
-              value={form.values.description}
-              onChange={form.handleChange}
-              onBlur={form.handleBlur}
-              name="description"
-              disabled={isSubmittingForm}
-            />
-            <InputError
-              isShown={form.touched.description && !!form.errors.description}
-              errorMessage={form.errors.description}
-            />
-          </InputContainer>
+            <InputContainer label="Descripción">
+              <Input
+                value={form.values.description}
+                onChange={form.handleChange}
+                onBlur={form.handleBlur}
+                name="description"
+                disabled={isSubmittingForm}
+              />
+              <InputError
+                isShown={form.touched.description && !!form.errors.description}
+                errorMessage={form.errors.description}
+              />
+            </InputContainer>
 
-          <InputContainer label="Foto de perfil">
-            <Input
-              value={form.values.imageUrl}
-              onChange={form.handleChange}
-              onBlur={form.handleBlur}
-              name="imageUrl"
-              disabled={isSubmittingForm}
-            />
-            <InputError
-              isShown={form.touched.imageUrl && !!form.errors.imageUrl}
-              errorMessage={form.errors.imageUrl}
-            />
-          </InputContainer>
+            <InputContainer label="Foto de perfil">
+              <Input
+                value={form.values.imageUrl}
+                onChange={form.handleChange}
+                onBlur={form.handleBlur}
+                name="imageUrl"
+                disabled={isSubmittingForm}
+              />
+              <InputError
+                isShown={form.touched.imageUrl && !!form.errors.imageUrl}
+                errorMessage={form.errors.imageUrl}
+              />
+            </InputContainer>
 
-          <InputContainer label="Color de fondo">
-            <ColorPicker
-              disabled={isSubmittingForm}
-              showText
-              size="large"
-              value={form.values.layoutConfig.bgColor}
-              onChange={(color) =>
-                form.setFieldValue("layoutConfig.bgColor", `#${color.toHex()}`)
-              }
-            />
-            <InputError
-              isShown={!!form.errors.layoutConfig?.bgColor}
-              errorMessage={form.errors.layoutConfig?.bgColor}
-            />
-          </InputContainer>
+            <InputContainer label="Color de fondo">
+              <ColorPicker
+                disabled={isSubmittingForm}
+                showText
+                size="large"
+                value={form.values.layoutConfig.bgColor}
+                onChange={(color) =>
+                  form.setFieldValue(
+                    "layoutConfig.bgColor",
+                    `#${color.toHex()}`
+                  )
+                }
+              />
+              <InputError
+                isShown={!!form.errors.layoutConfig?.bgColor}
+                errorMessage={form.errors.layoutConfig?.bgColor}
+              />
+            </InputContainer>
 
-          <InputContainer label="Imagen de fondo" isOptional>
-            <Input
-              value={form.values.layoutConfig.bgImage}
-              onChange={form.handleChange}
-              onBlur={form.handleBlur}
-              name="layoutConfig.bgImage"
-              disabled={isSubmittingForm}
-            />
-            <InputError
-              isShown={
-                form.touched.layoutConfig?.bgImage &&
-                !!form.errors.layoutConfig?.bgImage
-              }
-              errorMessage={form.errors.layoutConfig?.bgImage}
-            />
-          </InputContainer>
+            <InputContainer label="Imagen de fondo" isOptional>
+              <Input
+                value={form.values.layoutConfig.bgImage}
+                onChange={form.handleChange}
+                onBlur={form.handleBlur}
+                name="layoutConfig.bgImage"
+                disabled={isSubmittingForm}
+              />
+              <InputError
+                isShown={
+                  form.touched.layoutConfig?.bgImage &&
+                  !!form.errors.layoutConfig?.bgImage
+                }
+                errorMessage={form.errors.layoutConfig?.bgImage}
+              />
+            </InputContainer>
 
-          <div className="flex gap-2 items-center">
-            <Button
-              className="bg-blue-500 w-full"
-              type="primary"
-              icon={<SaveOutlined />}
-              loading={isSubmittingForm}
-              onClick={() => {
-                submitForm(form.values);
-              }}
-            >
-              Guardar
-            </Button>
-            <Link
-              href={`/${userSlug}`}
-              passHref
-              className="w-full"
-              target="_blank"
-            >
-              <Button icon={<LinkOutlined />} className="w-full">
-                Previsualizar
+            <div className="flex gap-2 items-center">
+              <Button
+                className="bg-blue-500 w-full"
+                type="primary"
+                icon={<SaveOutlined />}
+                loading={isSubmittingForm}
+                onClick={() => {
+                  submitForm(form.values);
+                }}
+              >
+                Guardar
               </Button>
-            </Link>
+              <Link
+                href={`/${userSlug}`}
+                passHref
+                className="w-full"
+                target="_blank"
+              >
+                <Button icon={<LinkOutlined />} className="w-full">
+                  Previsualizar
+                </Button>
+              </Link>
+            </div>
           </div>
+
+          <div className="flex flex-col gap-4">hello world</div>
         </div>
 
         <pre className="text-xs">{JSON.stringify(user, null, 2)}</pre>
