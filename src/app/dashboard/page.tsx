@@ -159,6 +159,23 @@ export default function Dashboard() {
             />
           </InputContainer>
 
+          <InputContainer label="Imagen de fondo" isOptional>
+            <Input
+              value={form.values.layoutConfig.bgImage}
+              onChange={form.handleChange}
+              onBlur={form.handleBlur}
+              name="layoutConfig.bgImage"
+              disabled={isSubmittingForm}
+            />
+            <InputError
+              isShown={
+                form.touched.layoutConfig?.bgImage &&
+                !!form.errors.layoutConfig?.bgImage
+              }
+              errorMessage={form.errors.layoutConfig?.bgImage}
+            />
+          </InputContainer>
+
           <div className="flex gap-2 items-center">
             <Button
               className="bg-blue-500 w-full"
