@@ -260,7 +260,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <pre className="text-xs">{JSON.stringify(user, null, 2)}</pre>
+        {/* <pre className="text-xs">{JSON.stringify(user, null, 2)}</pre> */}
       </div>
     );
   }
