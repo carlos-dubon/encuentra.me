@@ -21,9 +21,7 @@ const SocialMediaLinks: FC<{
 }> = (props) => {
   return (
     <div>
-      <h1 className="font-semibold mb-5">
-        Agrega links para tus redes sociales
-      </h1>
+      <h1 className="font-semibold mb-5">Redes sociales</h1>
       <div className="flex flex-col gap-2">
         <Form
           name="social-network-links"
