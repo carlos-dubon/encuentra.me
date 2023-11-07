@@ -1,12 +1,9 @@
 import { auth, db } from "@/app/firebase/config";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useDocument } from "react-firebase-hooks/firestore";
-
-export const USE_GET_USER_ERROR = {
-  USER_NOT_FOUND: "User not found",
-};
+import { nanoid } from "nanoid";
 
 export interface User {
   imageUrl: string;
@@ -23,12 +20,31 @@ export interface User {
   }[];
   layoutConfig: {
     bgColor: string;
+    textColor: string;
     bgImage: string;
     iconPack: string;
     font: string;
     customLinksStyle: string;
   };
 }
+
+const newUser = (name: string, imageUrl: string): User => {
+  return {
+    name,
+    description: "",
+    imageUrl,
+    layoutConfig: {
+      bgColor: "#ffffff",
+      textColor: "#000000",
+      bgImage: "",
+      customLinksStyle: "",
+      font: "Inter",
+      iconPack: "bootstrap",
+    },
+    customLinks: [],
+    socialLinks: [],
+  };
+};
 
 export const useGetUser = () => {
   const [loading, setLoading] = useState(true);
@@ -58,7 +74,23 @@ export const useGetUser = () => {
       if (docSnap.exists()) {
         setUserSlug(docSnap.data()?.slug);
       } else {
-        setError(USE_GET_USER_ERROR.USER_NOT_FOUND);
+        // TODO: Check for duplicate slugs and throw error
+
+        const slug = prompt("Escoge tu URL personalizada") || nanoid(6);
+
+        await setDoc(doc(db, "accounts", firebaseUser.uid), {
+          slug,
+        });
+
+        await setDoc(
+          doc(db, "users", slug),
+          newUser(
+            firebaseUser.displayName || "John Doe",
+            firebaseUser.photoURL || ""
+          )
+        );
+
+        setUserSlug(slug);
       }
 
       setLoading(false);

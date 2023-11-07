@@ -3,7 +3,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/app/firebase/config";
 import Link from "next/link";
 import { BsLinkedin, BsGithub } from "react-icons/bs";
-import { User } from "@/state/auth";
+import { User } from "@/hooks/useGetUser";
 
 const BootstrapIcons = {
   linkedin: <BsLinkedin size={32} />,
@@ -22,6 +22,7 @@ export default async function UserPage({ params }: { params: { id: string } }) {
     <div
       style={{
         backgroundColor: user?.layoutConfig.bgColor,
+        color: user?.layoutConfig.textColor,
       }}
       className="text-white h-screen flex flex-col items-center py-6 px-4 sm:p-6"
     >
