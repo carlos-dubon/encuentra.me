@@ -9,12 +9,13 @@ import logo from "/public/logo.svg";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { signOut } from "firebase/auth";
-import { auth } from "../firebase/config";
+import { auth, db } from "../firebase/config";
 import { Separator } from "@/components/Separator";
 import { SaveOutlined, LinkOutlined } from "@ant-design/icons";
 import { InputError } from "@/components/InputError";
 import { InputContainer } from "@/components/InputContainer";
 import Link from "next/link";
+import { doc, setDoc } from "firebase/firestore";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -62,9 +63,9 @@ export default function Dashboard() {
     initialValues,
     enableReinitialize: true,
     validationSchema,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       setIsSubmittingForm(true);
-      console.log(values);
+      await setDoc(doc(db, "users", userSlug || ""), values);
       setIsSubmittingForm(false);
     },
   });

@@ -28,11 +28,11 @@ export interface User {
   };
 }
 
-const newUser = (name: string): User => {
+const newUser = (name: string, imageUrl: string): User => {
   return {
     name,
     description: "",
-    imageUrl: "",
+    imageUrl,
     layoutConfig: {
       bgColor: "#ffffff",
       textColor: "#000000",
@@ -84,7 +84,10 @@ export const useGetUser = () => {
 
         await setDoc(
           doc(db, "users", slug),
-          newUser(firebaseUser.displayName || "John Doe")
+          newUser(
+            firebaseUser.displayName || "John Doe",
+            firebaseUser.photoURL || ""
+          )
         );
 
         setUserSlug(slug);
