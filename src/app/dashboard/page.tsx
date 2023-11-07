@@ -16,6 +16,7 @@ import { InputError } from "@/components/InputError";
 import { InputContainer } from "@/components/InputContainer";
 import Link from "next/link";
 import { doc, setDoc } from "firebase/firestore";
+import SocialMediaLinks from "@/components/SocialMediaLinks";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -49,7 +50,7 @@ export default function Dashboard() {
     name: Yup.string().required("Este campo es obligatorio"),
     description: Yup.string().required("Este campo es obligatorio"),
     imageUrl: Yup.string().required("Este campo es obligatorio"),
-    layoutConfig: Yup.object({
+    layourConfig: Yup.object({
       bgColor: Yup.string().required("Este campo es obligatorio"),
       textColor: Yup.string().required("Este campo es obligatorio"),
       bgImage: Yup.string(),
@@ -220,7 +221,9 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="flex flex-col gap-4">hello world</div>
+          <div className="flex flex-col gap-4">
+            <SocialMediaLinks socialLinks={user.socialLinks} />
+          </div>
         </div>
 
         <pre className="text-xs">{JSON.stringify(user, null, 2)}</pre>
