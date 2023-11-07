@@ -3,7 +3,7 @@ import { LoadingScreen } from "@/components/LoadingScreen";
 import { User, useGetUser } from "@/hooks/useGetUser";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import { Input, Button, ColorPicker, Select } from "antd";
+import { Input, Button, ColorPicker, Select, Form } from "antd";
 import Image from "next/image";
 import logo from "/public/logo.svg";
 import { useRouter } from "next/navigation";
@@ -17,12 +17,15 @@ import { InputContainer } from "@/components/InputContainer";
 import Link from "next/link";
 import { doc, setDoc } from "firebase/firestore";
 import SocialMediaLinks from "@/components/SocialMediaLinks";
+import CustomLinks from "@/components/CustomLinks";
 
 export default function Dashboard() {
   const router = useRouter();
   const { loading, error, user, userSlug } = useGetUser();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [isSubmittingForm, setIsSubmittingForm] = useState(false);
+  const [socialLinksForm] = Form.useForm();
+  const [customLinksForm] = Form.useForm();
 
   const logout = async () => {
     setIsLoggingOut(true);
@@ -51,8 +54,8 @@ export default function Dashboard() {
     description: Yup.string().required("Este campo es obligatorio"),
     imageUrl: Yup.string().required("Este campo es obligatorio"),
     layourConfig: Yup.object({
-      bgColor: Yup.string().required("Este campo es obligatorio"),
-      textColor: Yup.string().required("Este campo es obligatorio"),
+      bgColor: Yup.string(),
+      textColor: Yup.string(),
       bgImage: Yup.string(),
       customLinksStyle: Yup.string(),
       font: Yup.string(),
@@ -66,7 +69,28 @@ export default function Dashboard() {
     validationSchema,
     onSubmit: async (values) => {
       setIsSubmittingForm(true);
-      await setDoc(doc(db, "users", userSlug || ""), values);
+      const socialLinks =
+        socialLinksForm
+          .getFieldValue("links")
+          ?.filter(
+            (link: User["socialLinks"][number]) =>
+              link.url && link.socialNetwork
+          ) || [];
+      socialLinksForm.setFieldValue("links", socialLinks);
+
+      const customLinks =
+        customLinksForm
+          .getFieldValue("links")
+          ?.filter(
+            (link: User["customLinks"][number]) => link.url && link.label
+          ) || [];
+      customLinksForm.setFieldValue("links", customLinks);
+
+      await setDoc(doc(db, "users", userSlug || ""), {
+        ...values,
+        socialLinks,
+        customLinks,
+      });
       setIsSubmittingForm(false);
     },
   });
@@ -147,12 +171,12 @@ export default function Dashboard() {
                 showText
                 size="large"
                 value={form.values.layoutConfig.bgColor}
-                onChange={(color) =>
+                onChange={(color) => {
                   form.setFieldValue(
                     "layoutConfig.bgColor",
                     `#${color.toHex()}`
-                  )
-                }
+                  );
+                }}
               />
               <InputError
                 isShown={!!form.errors.layoutConfig?.bgColor}
@@ -222,7 +246,17 @@ export default function Dashboard() {
           </div>
 
           <div className="flex flex-col gap-4">
-            <SocialMediaLinks socialLinks={user.socialLinks} />
+            <SocialMediaLinks
+              form={socialLinksForm}
+              isSubmittingForm={isSubmittingForm}
+              socialLinks={user.socialLinks}
+            />
+
+            <CustomLinks
+              form={customLinksForm}
+              isSubmittingForm={isSubmittingForm}
+              customLinks={user.customLinks}
+            />
           </div>
         </div>
 

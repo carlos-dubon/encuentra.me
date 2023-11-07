@@ -1,6 +1,6 @@
 import { User } from "@/hooks/useGetUser";
-import { Button, Select, Input, Form } from "antd";
-import { FC } from "react";
+import { Button, Select, Input, Form, FormInstance } from "antd";
+import { FC, useEffect, useState } from "react";
 import { CloseOutlined } from "@ant-design/icons";
 
 const selectOptions = [
@@ -16,6 +16,8 @@ const selectOptions = [
 
 const SocialMediaLinks: FC<{
   socialLinks: User["socialLinks"];
+  isSubmittingForm: boolean;
+  form: FormInstance<any>;
 }> = (props) => {
   return (
     <div>
@@ -26,29 +28,32 @@ const SocialMediaLinks: FC<{
         <Form
           name="social-network-links"
           initialValues={{ links: props.socialLinks }}
-          onFinish={(values) => console.log(values)}
+          form={props.form}
         >
           <Form.List name="links">
             {(fields, { add, remove }) => (
               <>
-                {fields.map((field, index) => (
-                  <div key={field.key} className="flex items-center gap-2">
+                {fields.map(({ key, name, ...restField }, index) => (
+                  <div key={key} className="flex items-center gap-2">
                     <Form.Item
+                      {...restField}
+                      name={[name, "socialNetwork"]}
                       rules={[
                         {
                           required: true,
                           message: "Este campo es obligatorio",
                         },
                       ]}
-                      name={[field.name, "socialNetwork"]}
                     >
                       <Select
-                        className="w-36"
-                        defaultValue="linkedin"
+                        className="w-36 min-w-[144px]"
                         options={selectOptions}
+                        disabled={props.isSubmittingForm}
                       />
                     </Form.Item>
                     <Form.Item
+                      {...restField}
+                      name={[name, "url"]}
                       rules={[
                         {
                           required: true,
@@ -56,32 +61,26 @@ const SocialMediaLinks: FC<{
                         },
                       ]}
                       className="flex-1"
-                      name={[field.name, "url"]}
                     >
-                      <Input />
+                      <Input disabled={props.isSubmittingForm} />
                     </Form.Item>
                     <CloseOutlined
+                      disabled={props.isSubmittingForm}
                       className="mb-6"
                       onClick={() => remove(index)}
                     />
                   </div>
                 ))}
-                <Button className="mb-5 w-full" onClick={add}>
+                <Button
+                  className="mb-5 w-full"
+                  onClick={() => add({ socialNetwork: "", url: "" })}
+                  disabled={props.isSubmittingForm}
+                >
                   Agregar red social
                 </Button>
               </>
             )}
           </Form.List>
-          <div className="flex items-center gap-2">
-            <Button
-              htmlType="submit"
-              className="bg-blue-500 w-full"
-              type="primary"
-            >
-              Guardar
-            </Button>
-            <Button className="w-full">Cancelar</Button>
-          </div>
         </Form>
       </div>
     </div>
