@@ -28,12 +28,6 @@ export default function Dashboard() {
     router.push("/");
   };
 
-  const submitForm = async (values: User) => {
-    setIsSubmittingForm(true);
-    console.log(values);
-    setIsSubmittingForm(false);
-  };
-
   const initialValues: User = {
     name: user?.name || "",
     description: user?.description || "",
@@ -69,7 +63,9 @@ export default function Dashboard() {
     enableReinitialize: true,
     validationSchema,
     onSubmit: (values) => {
+      setIsSubmittingForm(true);
       console.log(values);
+      setIsSubmittingForm(false);
     },
   });
 
@@ -205,7 +201,7 @@ export default function Dashboard() {
                 icon={<SaveOutlined />}
                 loading={isSubmittingForm}
                 onClick={() => {
-                  submitForm(form.values);
+                  form.submitForm();
                 }}
               >
                 Guardar
