@@ -21,7 +21,7 @@ const CustomLinks: FC<{
 }> = (props) => {
   return (
     <div>
-      <h1 className="font-semibold mb-5">Agrega links personalizados</h1>
+      <h1 className="font-semibold mb-5">Enlaces</h1>
       <div className="flex flex-col gap-2">
         <Form
           layout="vertical"
@@ -36,7 +36,7 @@ const CustomLinks: FC<{
                   <Card key={key} className="relative">
                     <div className="grid gird-cols-2 gap-2">
                       <Form.Item
-                        label="Etiqueta"
+                        label="Nombre"
                         {...restField}
                         name={[name, "label"]}
                         rules={[
@@ -49,7 +49,7 @@ const CustomLinks: FC<{
                         <Input disabled={props.isSubmittingForm} />
                       </Form.Item>
                       <Form.Item
-                        label="url"
+                        label="Enlace"
                         {...restField}
                         name={[name, "url"]}
                         rules={[
@@ -62,7 +62,7 @@ const CustomLinks: FC<{
                         <Input disabled={props.isSubmittingForm} />
                       </Form.Item>
                       <Form.Item
-                        label="fotografía"
+                        label="Thumbnail"
                         className="col-span-2"
                         {...restField}
                         name={[name, "thumbnail"]}
